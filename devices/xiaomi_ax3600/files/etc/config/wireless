@@ -8,7 +8,7 @@ config wifi-device 'radio0'
 	option path 'platform/soc@0/c000000.wifi'
 	option band '5g'
 	option channel '36'
-	option htmode 'HE160'
+	option htmode 'HE80'
 	option country 'US'
 	option txpower '30'
 
