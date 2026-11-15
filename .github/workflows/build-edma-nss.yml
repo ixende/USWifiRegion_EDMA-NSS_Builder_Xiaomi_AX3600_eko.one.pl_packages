@@ -74,7 +74,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        nss_version: ["nss_12.5", "nss_11.4"]
+        nss_version: ["nss_11.4"]
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
@@ -178,6 +178,7 @@ jobs:
                 echo "CONFIG_PACKAGE_kmod-qca-nss-drv-igs=y"
                 echo "CONFIG_PACKAGE_kmod-qca-nss-drv-lag-mgr=y"
                 echo "CONFIG_PACKAGE_kmod-qca-nss-drv-wifi-meshmgr=y"
+                echo "CONFIG_ATH11K_NSS_MESH_SUPPORT=y"
                 echo "CONFIG_PACKAGE_kmod-qca-nss-drv-wlan-mgr=y"
 
                 # 4. Podsystemy Kryptograficzne, Bezpieczeństwo i Sprzętowy OpenVPN
