@@ -120,6 +120,24 @@ jobs:
           VARIANT: ${{ matrix.nss_version }}
         run: bash builder/scripts/prepare-build.sh
 
+      - name: Replace Polish regional defaults with US
+        run: |
+          set -euo pipefail
+          files=$(grep -rlE 'ucidef_set_country "PL"|Europe/Warsaw|CET-1CEST' openwrt/feeds openwrt/package builder/devices 2>/dev/null || true)
+          if [ -z "$files" ]; then
+            echo "ERROR: no Polish regional defaults found to patch" >&2
+            exit 1
+          fi
+          echo "Patching:"; echo "$files"
+          for f in $files; do
+            sed -i \
+              -e 's/ucidef_set_country "PL"/ucidef_set_country "US"/' \
+              -e 's|CET-1CEST,M3.5.0,M10.5.0/3|SGT-8|g' \
+              -e 's|Europe/Warsaw|Asia/Singapore|g' "$f"
+          done
+          echo "Remaining PL country settings (should be none):"
+          grep -rnE 'ucidef_set_country "PL"' openwrt/feeds openwrt/package builder/devices 2>/dev/null || echo "none"
+
       - name: Tweak config for selected NSS Firmware version
         run: |
           set -euo pipefail
